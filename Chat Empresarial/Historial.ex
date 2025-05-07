@@ -1,4 +1,4 @@
-defmodule Historial do
+defmodule ChatEmpresarial.Historial do
 
   @moduledoc """
   Este módulo gestiona el historial de mensajes enviados y recibidos en el chat, l aopcion para guardar

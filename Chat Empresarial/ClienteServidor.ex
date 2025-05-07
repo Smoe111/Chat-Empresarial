@@ -1,4 +1,4 @@
-defmodule ClienteServidor do
+defmodule ChatEmpresarial.ClienteServidor do
   @moduledoc """
   Este módulo se encarga de manejar la interaccion del cliente y el programa
   """
