@@ -33,6 +33,7 @@ alias Erl2exVendored.Cli
     IO.puts(" /join [sala]  = Unirse a una sala")
     IO.puts(" /create [sala] = Crear una sala")
     IO.puts(" /send [mensaje] [sala]= Enviar un mensaje a la sala")
+    IO.puts(" /historial [sala] = Ver el historial de la sala")
     IO.puts(" /exit = Salir del chat")
 
     listen(cliente)
@@ -90,6 +91,19 @@ alias Erl2exVendored.Cli
         IO.puts("Comando inválido. Usa /send [mensaje] [sala]")
         listen(cliente)
     end
+  end
+
+  defp procesar_comando("/historial" <> sala, %ChatEmpresarial.Usuarios{}= cliente) do
+
+    case ChatEmpresarial.Historial.leer_historial(sala) do
+      mensajes when is_list(mensajes) ->
+        IO.puts("Historial de la sala #{sala}:")
+        Enum.each(mensajes, fn {hora, usuario, mensaje} -> IO.puts( "[ #{hora} ] - #{usuario}: #{mensaje}") end)
+    otro->
+      IO.puts("#{otro}") # cualquier error o string que no sea una lista
+    end
+    listen()
+
   end
 
   defp procesar_comando("/exit", %ChatEmpresarial.Usuarios{}= cliente) do
