@@ -1,19 +1,26 @@
-defmodule ChatEmpresarial do
-
+defmodule ChatServer.Application do
   @moduledoc """
-  Este es el módulo principal del programa de chat empresarial. Aquí se definen las funciones
+  Punto de entrada del servidor de chat. Inicia y supervisa todos los procesos críticos.
   """
-
   use Application
 
+  @impl true
   def start(_type, _args) do
-    # Inicia el supervisor y los procesos necesarios para el chat empresarial
     children = [
-      ChatEmpresarial.Servidor
+      # Registro de usuarios conectados
+      ChatServer.UserRegistry,
+
+      # Gestión de salas de chat
+      ChatServer.RoomManager,
+
+      # Persistencia de mensajes
+      ChatServer.MessageStore,
+
+      # Supervisión de sesiones de usuario (dinámico)
+      {DynamicSupervisor, strategy: :one_for_one, name: ChatServer.UserSupervisor}
     ]
 
-    opts = [strategy: :one_for_one, name: ChatEmpresarial.Supervisor]
-    Supervisor.start_link(children, opts)  #modulo de elixir, inicia el servidor
-    
+    opts = [strategy: :one_for_one, name: ChatServer.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 end

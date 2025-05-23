@@ -8,7 +8,7 @@ defmodule ChatEmpresarial.ClienteServidor do
   end
 
   def start do
-    {:ok, _pid} = :gen_tcp.connect('localhost', 4000, [:binary, active: false])
+    {:ok, _pid} = :gen_tcp.connect("localhost", 4000, [:binary, active: false])
     loop()
   end
 
